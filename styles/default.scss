@@ -1,0 +1,118 @@
+html {
+  position: relative;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+  background-color: #fff;
+  font-size: 12px;
+  color: #1C1C1C;
+  line-height: 1.2;
+}
+
+main {
+  flex-grow: 1;
+  padding-bottom: 80px;
+
+  @media (min-width: 580px) {
+    padding-bottom: 100px;
+  }
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  max-height: 100%;
+}
+
+button {
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a, button {
+  transition: 0.3s;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+fieldset {
+  margin: 0;
+}
+
+label, input, textarea {
+  cursor: pointer;
+}
+
+/* Доступно скрываю элементы */
+
+.visually-hidden {
+  position: fixed;
+  transform: scale(0);
+}
+
+.container {
+  max-width: 1440px;
+  padding: 0 16px;
+  margin: 0 auto;
+
+  @media (min-width: 580px) {
+    padding: 0 29px;
+  }
+
+  @media (min-width: 820px) {
+    padding: 0 43px;
+  }
+
+  @media (min-width: 1120px) {
+    padding: 0 92px;
+  }
+}
+
+@media (min-width: 580px) {
+}
+
+@media (min-width: 820px) {
+}
+
+@media (min-width: 1120px) {
+}

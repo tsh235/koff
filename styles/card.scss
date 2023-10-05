@@ -1,0 +1,74 @@
+.card {
+  position: relative;
+  
+  @media (min-width: 820px) {
+  }
+  
+  @media (min-width: 1120px) {
+  }
+
+  &__link {
+    display: block;
+
+    @media (min-width: 580px) {
+      
+    }
+
+    &_img {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__info {
+    margin: 12px 0;
+    
+    @media (min-width: 580px) {
+      margin: 16px 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    @media (min-width: 820px) {
+      margin-bottom: 18px;
+    }
+  }
+
+  &__title {
+    margin-bottom: 4px;
+    font-weight: 400;
+    font-size: 12px;
+
+    @media (min-width: 580px) {
+      margin-bottom: 0;
+      padding-top: 3px;
+      font-size: 16px;
+    }
+  }
+
+  &__price {
+    font-size: 16px;
+
+    @media (min-width: 580px) {
+      font-size: 20px;
+    }
+  }
+
+  &__favorite {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 16px;
+    height: 16px;
+  }
+}

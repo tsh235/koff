@@ -1,3 +1,16 @@
-body {
-  background-color: #54456420;
-}
+@import 'styles/fonts';
+@import 'styles/default';
+@import 'styles/header';
+@import 'styles/catalog';
+@import 'styles/breadcrumb';
+@import 'styles/btn';
+@import 'styles/goods';
+@import 'styles/card';
+@import 'styles/product.scss';
+@import 'styles/cart';
+@import 'styles/form-order.scss';
+@import 'styles/order.scss';
+@import 'styles/radio';
+@import 'styles/table.scss';
+@import 'styles/footer';
+@import 'styles/contacts';

@@ -1,0 +1,58 @@
+.catalog {
+  overflow-x: hidden;
+  padding-top: 24px;
+
+  @media (min-width: 580px) {
+    padding-top: 32px;
+  }
+
+  @media (min-width: 820px) {
+    padding-top: 40px;
+  }
+
+  &__container {
+    padding: 0;
+  }
+
+  &__list {
+    overflow: auto hidden;
+    padding: 0 16px;
+    display: flex;
+    gap: 4px;
+
+    @media (min-width: 580px) {
+      padding: 0 29px;
+    }
+
+    @media (min-width: 820px) {
+      padding: 0 43px;
+    }
+
+    @media (min-width: 1120px) {
+      padding: 0 92px;
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 32px;
+    border: 1px solid transparent;
+    background-color: #EEEFF2;
+    color: #969EAE;
+    outline: none;
+    user-select: none;
+
+    &:hover,
+    &:focus-visible {
+      border-color: #780096;
+      color: #780096;
+    }
+    &:active,
+    &_active {
+      background-color: #780096;
+      color: #fff;
+      pointer-events: none;
+    }
+  }
+}
