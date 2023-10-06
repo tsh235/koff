@@ -1,6 +1,10 @@
 .order {
   padding-top: 32px;
 
+  @media (min-width: 580px) {
+    padding-top: 60px;
+  }
+
   &__container {
     max-width: 320px;
     padding: 24px 16px;

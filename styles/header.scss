@@ -76,10 +76,9 @@
     right: 24px;
     width: 16px;
     height: 16px;
-
-    border-radius: 4px;
-    outline-offset: 4px;
     outline: 1px solid transparent;
+    outline-offset: 4px;
+    border-radius: 4px;
 
     &:hover,
     &:active {
@@ -103,10 +102,18 @@
     align-items: end;
     gap: 4px;
     flex-direction: row-reverse;
-    outline: none;
+    outline: 1px solid transparent;
+    outline-offset: 4px;
+    border-radius: 4px;
 
-    &:hover, &:focus-visible {
-      color: #9200B7;
+    &:hover,
+    &:focus-visible,
+    &:active {
+      color: #780096;
+    }
+
+    &:focus-visible {
+      outline-color: #780096;
     }
 
     @media (min-width: 580px) {

@@ -1,11 +1,5 @@
 .card {
   position: relative;
-  
-  @media (min-width: 820px) {
-  }
-  
-  @media (min-width: 1120px) {
-  }
 
   &__link {
     display: block;
@@ -22,9 +16,17 @@
 
   &__img {
     width: 100%;
-    height: auto;
     object-fit: cover;
     object-position: center;
+    aspect-ratio: 7/6;
+    
+    @media (min-width: 580px) {
+      aspect-ratio: 115/100;
+    }
+    
+    @media (min-width: 820px) {
+      aspect-ratio: 151/125;
+    }
   }
 
   &__info {
