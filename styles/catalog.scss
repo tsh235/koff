@@ -41,17 +41,20 @@
     background-color: #EEEFF2;
     color: #969EAE;
     outline: none;
-    user-select: none;
 
     &:hover,
     &:focus-visible {
       border-color: #780096;
       color: #780096;
     }
+
     &:active,
     &_active {
       background-color: #780096;
       color: #fff;
+    }
+    
+    &_active {
       pointer-events: none;
     }
   }
