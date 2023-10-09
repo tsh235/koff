@@ -89,7 +89,7 @@ export class Footer {
           Developer: <a class="footer__developer-link" href="https://t.me/Tanya_Sh75" target="_blank">Tatyana Shustrova</a> 
         </li>
       </ul>
-
+          
       <p class="footer__copyright">&copy; Koff, 2023</p>
     `;
   };

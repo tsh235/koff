@@ -5,6 +5,10 @@ import { Header } from './modules/Header/Header.js';
 import { Footer } from './modules/Footer/Footer.js';
 import { Main } from './modules/Main/Main.js';
 import { Order } from './modules/Order/Order.js';
+import { ProductList } from './modules/ProductList/ProductList.js';
+import { ApiService } from './services/ApiService.js';
+import { Catalog } from './modules/Catalog/Catalog.js';
+import { NotFound } from './modules/NotFound/NotFound.js';
 
 const productSlider = () => {
   Promise.all([
@@ -34,24 +38,53 @@ const productSlider = () => {
 };
 
 const init = () => {
+  const api = new ApiService();
+  const router = new Navigo("/", { linksSelector: 'a[href^="/"]' });
+
   new Header().mount();
   new Main().mount();
   new Footer().mount();
+
+  api.getProductCategories().then(data => {
+    new Catalog().mount(new Main().element, data);
+    router.updatePageLinks();
+  });
   
   productSlider();
 
-  const router = new Navigo("/", { linksSelector: 'a[href^="/"]' });
-
   router
-    .on('/', () => {
-      console.log('main');
+    .on('/', async () => {
+      const product = await api.getProducts();
+      new ProductList().mount(new Main().element, product);
+      router.updatePageLinks();
+    }, {
+      leave(done) {
+        new ProductList().unmount();
+        done();
+      },
+      already() {
+        console.log('already');
+      }
     })
-    .on('/category', (obj) => {
-      console.log('obj: ', obj);
-      console.log('category');
+    .on('/category', async ({params: {slug}}) => {
+      const product = await api.getProducts();
+      new ProductList().mount(new Main().element, product, slug);
+      router.updatePageLinks();
+    }, {
+      leave(done) {
+        new ProductList().unmount();
+        done();
+      },
     })
-    .on('/favorite', () => {
-      console.log('favorite');
+    .on('/favorite', async () => {
+      const product = await api.getProducts();
+      new ProductList().mount(new Main().element, product, 'Избранное');
+      router.updatePageLinks();
+    }, {
+      leave(done) {
+        new ProductList().unmount();
+        done();
+      },
     })
     .on('/search', () => {
       console.log('search');
@@ -66,7 +99,16 @@ const init = () => {
       new Order().mount(new Main().element);
     })
     .notFound(() => {
-       document.body.innerHTML = '<h2>Страница не найдена</h2>'
+      new NotFound().mount(new Main().element);
+
+      setTimeout(() => {
+        router.navigate('/');
+      }, 5000);
+    }, {
+      leave(done) {
+        new NotFound().unmount();
+        done();
+      },
     });
 
   router.resolve();
