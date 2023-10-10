@@ -34,5 +34,11 @@
     &:focus-visible {
       border-color: #c0f;
     }
+
+    &:active {
+      border-color: #c0f;
+      color: #c0f;
+      background-color: transparent;
+    }
   }
 }

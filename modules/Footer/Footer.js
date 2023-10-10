@@ -1,3 +1,4 @@
+import { Logo } from "../../features/Logo/Logo.js";
 import { addContainer } from "../addContainer.js";
 
 export class Footer {
@@ -20,7 +21,7 @@ export class Footer {
       return;
     }
 
-    const logo = this.getLogo();
+    const logo = new Logo('footer').create();
 
     this.containerElement.append(logo);
 
@@ -33,17 +34,6 @@ export class Footer {
   unmount() {
     this.element.remove();
     this.isMounted = false;
-  };
-
-  getLogo() {
-    const logo = document.createElement('a');
-    logo.classList.add('footer__link-logo');
-    logo.href = '/';
-    logo.innerHTML = `
-      <img class="footer__logo" src="/img/logo.svg" alt="Логотип компании Koff">
-    `;
-
-    return logo;
   };
 
   getHTML() {

@@ -79,5 +79,20 @@
     right: 12px;
     width: 16px;
     height: 16px;
+
+    svg {
+      fill: #fff;
+      transition: 0.3s;
+    }
+
+    &:hover,
+    &_active {
+      color: #780096;
+      
+      svg {
+        color: #780096;
+        fill: #780096;
+      }
+    }
   }
 }

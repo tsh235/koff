@@ -106,14 +106,28 @@
     outline-offset: 4px;
     border-radius: 4px;
 
+    svg {
+      fill: #fff;
+      transition: 0.3s;
+    }
+
     &:hover,
     &:focus-visible,
     &:active {
       color: #780096;
+
+      svg {
+        fill: #780096;
+        color: #780096;
+      }
     }
 
     &:focus-visible {
       outline-color: #780096;
+
+      svg {
+        color: #780096;
+      }
     }
 
     @media (min-width: 580px) {
@@ -127,10 +141,5 @@
     @media (min-width: 580px) {
       display: block;
     }
-  }
-
-  &__icon {
-    width: 16px;
-    height: 16px;
   }
 }
