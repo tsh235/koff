@@ -9,6 +9,7 @@ import { ProductList } from './modules/ProductList/ProductList.js';
 import { ApiService } from './services/ApiService.js';
 import { Catalog } from './modules/Catalog/Catalog.js';
 import { NotFound } from './modules/NotFound/NotFound.js';
+import { FavoriteService } from './services/StorageService.js';
 
 const productSlider = () => {
   Promise.all([
@@ -77,8 +78,9 @@ const init = () => {
       },
     })
     .on('/favorite', async () => {
-      const product = await api.getProducts();
-      new ProductList().mount(new Main().element, product, 'Избранное');
+      const list = new FavoriteService().get();
+      const product = await api.getProducts({list});
+      new ProductList().mount(new Main().element, product.data, 'Избранное');
       router.updatePageLinks();
     }, {
       leave(done) {
