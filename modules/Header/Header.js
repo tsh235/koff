@@ -69,7 +69,7 @@ export class Header {
 
     const favoriteLink = document.createElement('a');
     favoriteLink.classList.add('header__link');
-    favoriteLink.href = '/favorite';
+    favoriteLink.href = '/favorite?page=1';
 
     const favoriteText = document.createElement('span');
     favoriteText.classList.add('header__link-text');
