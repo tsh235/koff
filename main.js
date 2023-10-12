@@ -84,7 +84,7 @@ const init = () => {
         done();
       },
     })
-    .on('/favorite', async ({params: page}) => {
+    .on('/favorite', async ({params: {page}}) => {
       const favorite = new FavoriteService().get();
       const { data: products, pagination } = await api.getProducts({
         list: favorite,

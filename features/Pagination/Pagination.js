@@ -20,7 +20,7 @@ export class Pagination {
     // this.paginationCurrent.textContent = width < totalProducts ? width : width - limit + (totalProducts % limit);
     // this.paginationTotal.textContent = totalProducts;
 
-    // Выводим количество текущую страницу из общего числа страниц
+    // Выводим текущую страницу из общего числа страниц
     this.paginationBar.style.setProperty(
       '--width', `calc((${currentPage} / ${totalPages}) * 100%)`
     );
@@ -43,6 +43,7 @@ export class Pagination {
     } else {
       this.paginationRight.removeAttribute('href');
     };
+
     return this;
   };
 
