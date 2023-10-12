@@ -44,12 +44,8 @@
 	}
 
 	&__count {
+		display: flex;
+		align-items: center;
+		gap: 8px;
 	}
-
-	&__current {
-	}
-
-	&__total {
-	}
-
 }

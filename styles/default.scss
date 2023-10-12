@@ -25,6 +25,20 @@ body {
   font-size: 12px;
   color: #1C1C1C;
   line-height: 1.2;
+
+  scrollbar-width: thin;
+  scrollbar-color: #a3a3a3 #d3d3d3; 
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #e7e7e7;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #a3a3a3;
 }
 
 main {

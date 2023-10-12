@@ -10,6 +10,7 @@ import { ApiService } from './services/ApiService.js';
 import { Catalog } from './modules/Catalog/Catalog.js';
 import { NotFound } from './modules/NotFound/NotFound.js';
 import { FavoriteService } from './services/StorageService.js';
+import { Pagination } from './features/Pagination/Pagination.js';
 
 const productSlider = () => {
   Promise.all([
@@ -55,21 +56,27 @@ const init = () => {
 
   router
     .on('/', async () => {
-      const product = await api.getProducts();
-      new ProductList().mount(new Main().element, product);
+      const products = await api.getProducts();
+      new ProductList().mount(new Main().element, products);
       router.updatePageLinks();
     }, {
       leave(done) {
         new ProductList().unmount();
         done();
       },
-      already() {
-        console.log('already');
-      }
+      already(match) {
+        match.route.handler(match);
+      },
     })
-    .on('/category', async ({params: {slug}}) => {
-      const product = await api.getProducts();
-      new ProductList().mount(new Main().element, product, slug);
+    .on('/category', async ({params: {slug, page}}) => {
+      const {data: products, pagination} = await api.getProducts({
+        category: slug,
+        page: page || 1,
+      });
+      new ProductList().mount(new Main().element, products, slug);
+      new Pagination()
+        .mount(new ProductList().containerElement)
+        .update(pagination);
       router.updatePageLinks();
     }, {
       leave(done) {
@@ -77,15 +84,24 @@ const init = () => {
         done();
       },
     })
-    .on('/favorite', async () => {
-      const list = new FavoriteService().get();
-      const product = await api.getProducts({list});
-      new ProductList().mount(new Main().element, product.data, 'Избранное');
+    .on('/favorite', async ({params: page}) => {
+      const favorite = new FavoriteService().get();
+      const { data: products, pagination } = await api.getProducts({
+        list: favorite,
+        page: page || 1, 
+      });
+      new ProductList().mount(new Main().element, products, 'Избранное', 'Вы ничего не добавили в избранное. Пожалуйтса, добавьте товар.');
+      new Pagination()
+        .mount(new ProductList().containerElement)
+        .update(pagination);
       router.updatePageLinks();
     }, {
       leave(done) {
         new ProductList().unmount();
         done();
+      },
+      already(match) {
+        match.route.handler(match);
       },
     })
     .on('/search', () => {
