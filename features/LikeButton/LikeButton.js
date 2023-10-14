@@ -1,7 +1,6 @@
 import { FavoriteService } from "../../services/StorageService.js";
 import { likeSvg } from "../likeSVG/likeSVG.js";
 
-
 export class LikeButton {
   constructor(className) {
     this.className = className;

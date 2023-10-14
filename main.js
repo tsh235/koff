@@ -11,104 +11,145 @@ import { Catalog } from './modules/Catalog/Catalog.js';
 import { NotFound } from './modules/NotFound/NotFound.js';
 import { FavoriteService } from './services/StorageService.js';
 import { Pagination } from './features/Pagination/Pagination.js';
+import { Breadcrumbs } from './features/Breadcrumbs/Breadcrumbs.js';
+import { ProductCard } from './modules/ProductCard/ProductCard.js';
+import { productSlider } from './features/productSlider/productSlider.js';
 
-const productSlider = () => {
-  Promise.all([
-    import('swiper/modules'),
-    import('swiper'),
-    import('swiper/css'),
-  ]).then(([{Navigation, Thumbs}, Swiper]) => {
-    const swiperThumbnails = new Swiper.default(".product__slider-thumbnails", {
-      spaceBetween: 10,
-      slidesPerView: 4,
-      freeMode: true,
-      watchSlidesProgress: true,
-    });
-    
-    new Swiper.default(".product__slider-main", {
-      spaceBetween: 10,
-      modules: [Navigation, Thumbs],
-      navigation: {
-        nextEl: ".product__arrow_next",
-        prevEl: ".product__arrow_prev",
-      },
-      thumbs: {
-        swiper: swiperThumbnails,
-      },
-    });
-  });
-};
+export const router = new Navigo("/", { linksSelector: 'a[href^="/"]' });
 
 const init = () => {
   const api = new ApiService();
-  const router = new Navigo("/", { linksSelector: 'a[href^="/"]' });
 
   new Header().mount();
   new Main().mount();
   new Footer().mount();
 
-  api.getProductCategories().then(data => {
-    new Catalog().mount(new Main().element, data);
-    router.updatePageLinks();
-  });
-  
-  productSlider();
-
   router
     .on('/', async () => {
+      new Catalog().mount(new Main().element);
+
       const products = await api.getProducts();
+
       new ProductList().mount(new Main().element, products);
       router.updatePageLinks();
     }, {
       leave(done) {
         new ProductList().unmount();
+        new Catalog().unmount();
         done();
       },
       already(match) {
         match.route.handler(match);
       },
     })
-    .on('/category', async ({params: {slug, page}}) => {
-      const {data: products, pagination} = await api.getProducts({
+    .on('/category', async ({params: { slug, page = 1 }}) => {
+      new Catalog().mount(new Main().element);
+
+      const { data: products, pagination } = await api.getProducts({
         category: slug,
         page: page || 1,
       });
+
+      new Breadcrumbs().mount(new Main().element, [{ text: slug }]);
       new ProductList().mount(new Main().element, products, slug);
-      new Pagination()
-        .mount(new ProductList().containerElement)
-        .update(pagination);
+
+      if (pagination.totalPages > 1) {
+        new Pagination()
+          .mount(new ProductList().containerElement)
+          .update(pagination);
+      }
+
       router.updatePageLinks();
     }, {
       leave(done) {
+        new Breadcrumbs().unmount();
         new ProductList().unmount();
-        done();
-      },
-    })
-    .on('/favorite', async ({params: {page}}) => {
-      const favorite = new FavoriteService().get();
-      const { data: products, pagination } = await api.getProducts({
-        list: favorite,
-        page: page || 1, 
-      });
-      new ProductList().mount(new Main().element, products, 'Избранное', 'Вы ничего не добавили в избранное. Пожалуйтса, добавьте товар.');
-      new Pagination()
-        .mount(new ProductList().containerElement)
-        .update(pagination);
-      router.updatePageLinks();
-    }, {
-      leave(done) {
-        new ProductList().unmount();
+        new Catalog().unmount();
         done();
       },
       already(match) {
         match.route.handler(match);
       },
     })
-    .on('/search', () => {
-      console.log('search');
+    .on('/favorite', async ({ params }) => {
+      new Catalog().mount(new Main().element);
+
+      const favorite = new FavoriteService().get();
+      const { data: products, pagination } = await api.getProducts({
+        list: favorite,
+        page: params?.page || 1, 
+      });
+
+      new Breadcrumbs().mount(new Main().element, [{ text: 'Избранное' }]);
+      new ProductList().mount(new Main().element, products, 'Избранное', 'Вы ничего не добавили в избранное. Пожалуйтса, добавьте товар.');
+      
+      if (pagination?.totalPages > 1) {
+        new Pagination()
+          .mount(new ProductList().containerElement)
+          .update(pagination);
+      }
+
+      router.updatePageLinks();
+    }, {
+      leave(done) {
+        new Breadcrumbs().unmount();
+        new ProductList().unmount();
+        new Catalog().unmount();
+        done();
+      },
+      already(match) {
+        match.route.handler(match);
+      },
     })
-    .on('/product/:id', (obj) => {
-      console.log('obj: ', obj);
+    .on('/search', async ({ params: {q} }) => {
+      new Catalog().mount(new Main().element);
+
+      const { data: products, pagination } = await api.getProducts({
+        q,
+      });
+
+      new Breadcrumbs().mount(new Main().element, [{ text: 'Поиск' }]);
+      new ProductList().mount(new Main().element, products, `Поиск: ${q}`, `По запросу "${q}" ничего не найдено. Пожалуйтса измените запрос.`);
+      
+      if (pagination?.totalPages > 1) {
+        new Pagination()
+          .mount(new ProductList().containerElement)
+          .update(pagination);
+      }
+      router.updatePageLinks();
+    }, {
+      leave(done) {
+        new Breadcrumbs().unmount();
+        new ProductList().unmount();
+        new Catalog().unmount();
+        done();
+      },
+      already(match) {
+        match.route.handler(match);
+      },
+    })
+    .on('/product/:id', async (obj) => {
+      new Catalog().mount(new Main().element);
+
+      const data = await api.getProductById(obj.data.id);
+      console.log('data: ', data);
+
+      new Breadcrumbs().mount(new Main().element, [
+        { text: data.category,
+          href: `/category?slug=${data.category}`
+        },
+        { text: data.name }
+      ]);
+
+      new ProductCard().mount(new Main().element, data);
+      productSlider();
+    }, {
+      leave(done) {
+        new Catalog().unmount();
+        new Breadcrumbs().unmount();
+        new ProductCard().unmount();
+        done();
+      }
     })
     .on('/cart', () => {
       console.log('cart');

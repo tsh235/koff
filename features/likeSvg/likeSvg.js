@@ -1,6 +1,13 @@
-export const likeSvg = async () => {
-   const response = await fetch('/img/like.svg');
-   const svg = await response.text();
+let like = null;
 
-   return new DOMParser().parseFromString(svg, 'image/svg+xml').querySelector('svg');
+export const likeSvg = async () => {
+  if (!like) {
+    const response = await fetch('/img/like.svg');
+    const svg = await response.text();
+
+    like = new DOMParser()
+      .parseFromString(svg, 'image/svg+xml')
+      .querySelector('svg');
+  }
+  return like.cloneNode(true);
 }

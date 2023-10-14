@@ -1,5 +1,6 @@
 import { Logo } from "../../features/Logo/Logo.js";
 import { likeSvg } from "../../features/likeSVG/likeSVG.js";
+import { router } from "../../main.js";
 import { addContainer } from "../addContainer.js";
 
 export class Header {
@@ -23,8 +24,8 @@ export class Header {
     }
 
     const logo = new Logo('header').create();
-    const searchForm = this.searchForm();
-    const navigation = this.navigation();
+    const searchForm = this.getSsearchForm();
+    const navigation = this.getNavigation();
 
     this.containerElement.append(logo, searchForm, navigation);
 
@@ -37,7 +38,7 @@ export class Header {
     this.isMounted = false;
   };
 
-  searchForm() {
+  getSsearchForm() {
     const searchForm = document.createElement('form');
     searchForm.classList.add('header__search');
     searchForm.method = 'GET';
@@ -58,18 +59,24 @@ export class Header {
       </svg>  
     `;
 
+    searchForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      router.navigate(`/search?q=${input.value}`)
+    })
+
     searchForm.append(input, button);
 
     return searchForm;
   };
 
-  navigation() {
+  getNavigation() {
     const navigation = document.createElement('nav');
     navigation.classList.add('header__control');
 
     const favoriteLink = document.createElement('a');
     favoriteLink.classList.add('header__link');
-    favoriteLink.href = '/favorite?page=1';
+    favoriteLink.href = '/favorite';
 
     const favoriteText = document.createElement('span');
     favoriteText.classList.add('header__link-text');

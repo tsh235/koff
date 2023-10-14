@@ -1,4 +1,5 @@
 import { Card } from "../../features/Card/Card.js";
+import { Pagination } from "../../features/Pagination/Pagination.js";
 import { addContainer } from "../addContainer.js";
 
 export class ProductList {
@@ -11,8 +12,6 @@ export class ProductList {
       this.element.classList.add('goods');
       this.containerElement = addContainer(this.element, 'goods__container');
       this.isMounted = false;
-
-      this.addEvents();
     }
 
     return ProductList.instance;
@@ -34,7 +33,6 @@ export class ProductList {
         <p class="goods__empty">${emptyText || 'Произошла ошибка, попробуйте снова'}</p>
       `);
     }
-
     
     if (this.isMounted) {
       return;
@@ -68,4 +66,4 @@ export class ProductList {
 
     this.containerElement.append(listElem);
   };
-}
+};

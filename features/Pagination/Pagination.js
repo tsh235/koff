@@ -17,7 +17,12 @@ export class Pagination {
     //   '--width', `calc((${width < totalProducts ? width : totalProducts} / ${totalProducts}) * 100%)`
     // );
 
-    // this.paginationCurrent.textContent = width < totalProducts ? width : width - limit + (totalProducts % limit);
+    // this.paginationCurrent.textContent = 
+    //   totalProducts === limit 
+    //     ? totalProducts
+    //     : width < totalProducts
+    //       ? width
+    //       : width - limit + (totalProducts % limit);
     // this.paginationTotal.textContent = totalProducts;
 
     // Выводим текущую страницу из общего числа страниц
