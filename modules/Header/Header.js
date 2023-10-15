@@ -62,7 +62,8 @@ export class Header {
     searchForm.addEventListener('submit', e => {
       e.preventDefault();
 
-      router.navigate(`/search?q=${input.value}`)
+      router.navigate(`/search?q=${input.value}`);
+      searchForm.reset();
     })
 
     searchForm.append(input, button);
@@ -111,7 +112,7 @@ export class Header {
         <path d="M9.57336 9.33325V11.6999" stroke="currentColor" stroke-linecap="round"/>
         <path d="M2.33337 6.66675L3.27337 12.4267C3.48671 13.7201 4.00004 14.6667 5.90671 14.6667H9.92671C12 14.6667 12.3067 13.7601 12.5467 12.5067L13.6667 6.66675" stroke="currentColor" stroke-linecap="round"/>
       </svg>`,
-      );
+    );
 
     navigation.append(favoriteLink, cartLink);
 

@@ -160,7 +160,7 @@ export class ProductCard {
     const productButtons = document.createElement('div');
     productButtons.classList.add('product__btns');
 
-    const addCartBtn = new CartButton('product__btn btn btn_second', 'В корзину').create(data.id);
+    const addCartBtn = new CartButton('product__btn btn btn_main', 'В корзину').create(data.id);
     const favoriteBtn = new LikeButton('product__like').create(data.id);
 
     productButtons.append(addCartBtn, favoriteBtn);

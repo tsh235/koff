@@ -18,7 +18,7 @@ export class Catalog {
 
   async getData() {
     this.catalogData = await new ApiService().getProductCategories();
-  }
+  };
 
   async mount(parent) {
     if (this.isMounted) {

@@ -14,6 +14,7 @@ import { Pagination } from './features/Pagination/Pagination.js';
 import { Breadcrumbs } from './features/Breadcrumbs/Breadcrumbs.js';
 import { ProductCard } from './modules/ProductCard/ProductCard.js';
 import { productSlider } from './features/productSlider/productSlider.js';
+import { Cart } from './modules/Cart/Cart.js';
 
 export const router = new Navigo("/", { linksSelector: 'a[href^="/"]' });
 
@@ -132,7 +133,6 @@ const init = () => {
       new Catalog().mount(new Main().element);
 
       const data = await api.getProductById(obj.data.id);
-      console.log('data: ', data);
 
       new Breadcrumbs().mount(new Main().element, [
         { text: data.category,
@@ -151,8 +151,14 @@ const init = () => {
         done();
       }
     })
-    .on('/cart', () => {
-      console.log('cart');
+    .on('/cart', async () => {
+      const cartItems = await api.getCart();
+      new Cart().mount(new Main().element, cartItems, 'Корзина пуста, добавьте товары');
+    }, {
+      leave(done) {
+        new Cart().unmount();
+        done();
+      }
     })
     .on('/order', () => {
       new Order().mount(new Main().element);
