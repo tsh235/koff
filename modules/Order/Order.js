@@ -15,22 +15,22 @@ export class Order {
     return Order.instance;
   };
 
-  mount(main) {
+  mount(parent, [data]) {
     if (this.isMounted) {
       return;
     }
 
     const orderContent = this.getContent();
-    const orderTitle = this.getTitle();
-    const orderNumber = this.getNumber();
-    const orderTable = this.getTable();
+    const orderTitle = this.getTitle(data);
+    const orderNumber = this.getNumber(data);
+    const orderTable = this.getTable(data);
     const orderLink = this.getLink();
 
     orderContent.append(orderTitle, orderNumber, orderTable, orderLink);
 
     this.containerElement.insertAdjacentElement('beforeend', orderContent);
 
-    main.append(this.element);
+    parent.append(this.element);
     this.isMounted = true;
   };
 
@@ -46,23 +46,24 @@ export class Order {
     return orderContent;
   };
 
-  getTitle() {
+  getTitle(data) {
+    console.log('data: ', data);
     const orderTitle = document.createElement('h2');
     orderTitle.classList.add('order__title');
-    orderTitle.innerHTML = `Заказ успешно размещен <span class="order__price">20&nbsp;000&nbsp;₽</span>`;
+    orderTitle.innerHTML = `Заказ успешно размещен <span class="order__price">${data.totalPrice}&nbsp;₽</span>`;
 
     return orderTitle;
   };
 
-  getNumber() {
-    const orderNumber = document.createElement('h2');
+  getNumber(data) {
+    const orderNumber = document.createElement('p');
     orderNumber.classList.add('order__number');
-    orderNumber.textContent = `№43435`;
+    orderNumber.textContent = `№ ${data.id}`;
 
     return orderNumber;
   };
 
-  getTable() {
+  getTable(data) {
     const orderSubtitle = document.createElement('h3');
     orderSubtitle.classList.add('order__subtitle');
     orderSubtitle.textContent = 'Данные доставки';
@@ -72,27 +73,27 @@ export class Order {
     orderTable.innerHTML = `
       <tr class="table__row">
         <td class="table__field">Получатель</td>
-        <td class="table__value">Иванов Петр Александрович</td>
+        <td class="table__value">${data.name}</td>
       </tr>
       <tr class="table__row">
         <td class="table__field">Телефон</td>
-        <td class="table__value">+7 (737) 346 23 00</td>
+        <td class="table__value">${data.phone}</td>
       </tr>
       <tr class="table__row">
         <td class="table__field">E-mail</td>
-        <td class="table__value">Ivanov84@gmail.com</td>
+        <td class="table__value">${data.email}</td>
       </tr>
       <tr class="table__row">
         <td class="table__field">Адрес доставки</td>
-        <td class="table__value">Москва, ул. Ленина, 21, кв. 33</td>
+        <td class="table__value">${data.address ? data.address : 'Самовывоз'}</td>
       </tr>
       <tr class="table__row">
         <td class="table__field">Способ оплаты</td>
-        <td class="table__value">Картой при получении</td>
+        <td class="table__value">${data.paymentType}</td>
       </tr>
       <tr class="table__row">
         <td class="table__field">Способ получения</td>
-        <td class="table__value">Доставка</td>
+        <td class="table__value">${data.deliveryType}</td>
       </tr>
     `;
 

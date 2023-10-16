@@ -53,10 +53,13 @@
       color: #780096;
     }
 
-    &:active,
     &_active {
       background-color: #780096;
       color: #fff;
+
+      &:hover {
+        color: #fff;
+      }
     }
     
     &_active {

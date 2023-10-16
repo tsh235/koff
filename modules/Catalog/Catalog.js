@@ -1,3 +1,4 @@
+import { router } from "../../main.js";
 import { ApiService } from "../../services/ApiService.js";
 import { addContainer } from "../addContainer.js";
 
@@ -11,6 +12,7 @@ export class Catalog {
       this.element.classList.add('catalog');
       this.containerElement = addContainer(this.element, 'catalog__container');
       this.isMounted = false;
+      this.linksList = [];
     }
 
     return Catalog.instance;
@@ -22,7 +24,7 @@ export class Catalog {
 
   async mount(parent) {
     if (this.isMounted) {
-      return;
+      return this;
     }
 
     if (!this.catalogData) {
@@ -32,11 +34,16 @@ export class Catalog {
 
     parent.prepend(this.element);
     this.isMounted = true;
+    return this;
   };
 
   unmount() {
     this.element.remove();
     this.isMounted = false;
+
+    this.linksList.forEach(link => {
+      link.classList.remove('catalog__link_active');
+    });
   };
 
   renderListElem(data) {
@@ -48,6 +55,9 @@ export class Catalog {
       listItemElem.classList.add('catalog__item');
 
       const link = document.createElement('a');
+
+      this.linksList.push(link);
+
       link.classList.add('catalog__link');
       link.href = `/category?slug=${item}`;
       link.textContent = item;
@@ -60,5 +70,17 @@ export class Catalog {
     listElem.append(...listItems);
 
     this.containerElement.append(listElem);
-  }
+  };
+
+  setActiveLink(slug) {
+    const encodedSlug = encodeURIComponent(slug)
+    this.linksList.forEach(link => {
+      const linkSlug = new URL(link.href).searchParams.get('slug');
+      if (encodeURIComponent(linkSlug) === encodedSlug) {
+        link.classList.add('catalog__link_active');
+      } else {
+        link.classList.remove('catalog__link_active');
+      }
+    });
+  };
 };

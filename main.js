@@ -30,7 +30,6 @@ const init = () => {
       new Catalog().mount(new Main().element);
 
       const products = await api.getProducts();
-
       new ProductList().mount(new Main().element, products);
       router.updatePageLinks();
     }, {
@@ -44,7 +43,7 @@ const init = () => {
       },
     })
     .on('/category', async ({params: { slug, page = 1 }}) => {
-      new Catalog().mount(new Main().element);
+      (await new Catalog().mount(new Main().element)).setActiveLink(slug);
 
       const { data: products, pagination } = await api.getProducts({
         category: slug,
@@ -160,8 +159,17 @@ const init = () => {
         done();
       }
     })
-    .on('/order', () => {
-      new Order().mount(new Main().element);
+    .on('/order/:id', ({ data: {id} }) => {
+      console.log('id: ', id);
+
+      api.getOrder(id).then(data => {
+        new Order().mount(new Main().element, data);
+      });
+    }, {
+      leave(done) {
+        new Order().unmount();
+        done();
+      }
     })
     .notFound(() => {
       new NotFound().mount(new Main().element);
@@ -177,6 +185,10 @@ const init = () => {
     });
 
   router.resolve();
+
+  api.getCart().then(data => {
+    new Header().changeCount(data.totalCount);
+  })
 };
 
 init();

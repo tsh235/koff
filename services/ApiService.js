@@ -134,4 +134,32 @@ export class ApiService {
       console.error(error);
     };
   };
+
+  async postOrder(data) {
+    if (!this.accessKey) {
+      await this.accessKey();
+    }
+
+    try {
+      const response = await axios.post(
+        `${this.#apiUrl}api/orders`,
+        data,
+        { headers: { Authorization: `Bearer ${this.accessKey}` }}
+      );
+
+      return response.data;
+    } catch (error) {
+      if(error.response && error.response.status === 401) {
+        this.accessKey = null;
+        this.accessKeyService.delete();
+      }
+      
+      console.error(error);
+    };
+  };
+
+  async getOrder(id) {
+    return await this.getData(`api/orders/${id}`);
+  };
+
 };

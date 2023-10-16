@@ -121,9 +121,9 @@ export class Header {
     return navigation;
   };
 
-  changeCount() {
+  changeCount(n) {
     // todo n
-    this.countElement.textContent = `(&{n})`;
+    this.countElement.textContent = `(${n})`;
   };
 
 };
