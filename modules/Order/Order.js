@@ -1,3 +1,4 @@
+import { Header } from "../Header/Header.js";
 import { addContainer } from "../addContainer.js";
 
 export class Order {
@@ -19,6 +20,10 @@ export class Order {
     if (this.isMounted) {
       return;
     }
+
+    new Header().changeCount('0');
+    this.containerElement.textContent = '';
+
 
     const orderContent = this.getContent();
     const orderTitle = this.getTitle(data);
@@ -50,7 +55,7 @@ export class Order {
     console.log('data: ', data);
     const orderTitle = document.createElement('h2');
     orderTitle.classList.add('order__title');
-    orderTitle.innerHTML = `Заказ успешно размещен <span class="order__price">${data.totalPrice}&nbsp;₽</span>`;
+    orderTitle.innerHTML = `Заказ успешно размещен <span class="order__price">${Number(data.totalPrice).toLocaleString()}&nbsp;₽</span>`;
 
     return orderTitle;
   };
@@ -85,7 +90,7 @@ export class Order {
       </tr>
       <tr class="table__row">
         <td class="table__field">Адрес доставки</td>
-        <td class="table__value">${data.address ? data.address : 'Самовывоз'}</td>
+        <td class="table__value">${data.address ? data.address : 'Адрес не указан'}</td>
       </tr>
       <tr class="table__row">
         <td class="table__field">Способ оплаты</td>

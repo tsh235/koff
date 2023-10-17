@@ -31,6 +31,7 @@ export class ProductList {
     } else {
       this.containerElement.insertAdjacentHTML('beforeend', `
         <p class="goods__empty">${emptyText || 'Произошла ошибка, попробуйте снова'}</p>
+        <a class="goods__empty-link btn btn_second" href="/">Вернуться на главную</a>
       `);
     }
     

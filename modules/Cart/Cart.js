@@ -41,6 +41,7 @@ export class Cart {
     } else {
       this.containerElement.insertAdjacentHTML('beforeend', `
         <p class="cart__empty">${emptyText || 'Произошла ошибка, попробуйте снова'}</p>
+        <a class="cart__empty-link btn btn_second" href="/">Вернуться на главную</a>
       `);
     }
 
@@ -322,7 +323,6 @@ export class Cart {
       e.preventDefault();
 
       const data = Object.fromEntries(new FormData(form));
-      console.log('data: ', data);
 
       const {orderId} = await new ApiService().postOrder(data);
       

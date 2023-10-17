@@ -160,10 +160,9 @@ const init = () => {
       }
     })
     .on('/order/:id', ({ data: {id} }) => {
-      console.log('id: ', id);
-
       api.getOrder(id).then(data => {
         new Order().mount(new Main().element, data);
+        
       });
     }, {
       leave(done) {
@@ -188,7 +187,7 @@ const init = () => {
 
   api.getCart().then(data => {
     new Header().changeCount(data.totalCount);
-  })
+  });
 };
 
 init();
