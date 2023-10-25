@@ -11,6 +11,9 @@ export class Catalog {
       this.element = document.createElement('nav');
       this.element.classList.add('catalog');
       this.containerElement = addContainer(this.element, 'catalog__container');
+      this.listElem = document.createElement('ul');
+      this.listElem.classList.add('catalog__list');
+      this.containerElement.append(this.listElem);
       this.isMounted = false;
       this.linksList = [];
     }
@@ -47,9 +50,7 @@ export class Catalog {
   };
 
   renderListElem(data) {
-    const listElem = document.createElement('ul');
-    listElem.classList.add('catalog__list');
-
+    this.listElem.textContent = '';
     const listItems = data.map(item => {
       const listItemElem = document.createElement('li');
       listItemElem.classList.add('catalog__item');
@@ -67,9 +68,7 @@ export class Catalog {
       return listItemElem;
     });
 
-    listElem.append(...listItems);
-
-    this.containerElement.append(listElem);
+    this.listElem.append(...listItems);
   };
 
   setActiveLink(slug) {

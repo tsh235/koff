@@ -1,4 +1,3 @@
-import { Header } from "../Header/Header.js";
 import { addContainer } from "../addContainer.js";
 
 export class Order {
@@ -21,9 +20,7 @@ export class Order {
       return;
     }
 
-    new Header().changeCount('0');
     this.containerElement.textContent = '';
-
 
     const orderContent = this.getContent();
     const orderTitle = this.getTitle(data);
@@ -52,7 +49,6 @@ export class Order {
   };
 
   getTitle(data) {
-    console.log('data: ', data);
     const orderTitle = document.createElement('h2');
     orderTitle.classList.add('order__title');
     orderTitle.innerHTML = `Заказ успешно размещен <span class="order__price">${Number(data.totalPrice).toLocaleString()}&nbsp;₽</span>`;

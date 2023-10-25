@@ -122,7 +122,6 @@ export class Header {
   };
 
   changeCount(n) {
-    // todo n
     this.countElement.textContent = `(${n})`;
   };
 

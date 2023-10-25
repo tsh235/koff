@@ -25,7 +25,7 @@ export const productSlider = () => {
         },
       });
     } catch (error) {
-      console.log('error: ', error);
+      console.error('error: ', error);
     };
 
   });

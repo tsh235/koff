@@ -162,7 +162,6 @@ const init = () => {
     .on('/order/:id', ({ data: {id} }) => {
       api.getOrder(id).then(data => {
         new Order().mount(new Main().element, data);
-        
       });
     }, {
       leave(done) {

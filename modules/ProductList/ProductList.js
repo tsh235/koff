@@ -1,5 +1,4 @@
 import { Card } from "../../features/Card/Card.js";
-import { Pagination } from "../../features/Pagination/Pagination.js";
 import { addContainer } from "../addContainer.js";
 
 export class ProductList {

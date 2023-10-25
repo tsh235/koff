@@ -2,6 +2,7 @@ import { API_URL } from "../../const.js";
 import { debounce } from "../../helpers.js";
 import { router } from "../../main.js";
 import { ApiService } from "../../services/ApiService.js";
+import { Header } from "../Header/Header.js";
 import { addContainer } from "../addContainer.js";
 
 export class Cart {
@@ -326,7 +327,9 @@ export class Cart {
 
       const {orderId} = await new ApiService().postOrder(data);
       
-      router.navigate(`/order/${orderId}`)
+      new Header().changeCount(0);
+      
+      router.navigate(`/order/${orderId}`);
     });
 
     this.containerElement.append(form);

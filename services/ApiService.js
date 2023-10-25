@@ -18,7 +18,7 @@ export class ApiService {
         this.accessKeyService.set(this.accessKey);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -43,7 +43,7 @@ export class ApiService {
 
         return this.getData(pathname, params);
       } else {
-        console.log(error);
+        console.error(error);
       }
     };
   };
