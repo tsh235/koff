@@ -13,7 +13,7 @@ export default defineConfig({
       scss: {},
     },
     postcss: {
-      plugins: [autoprefixer()],
+      plugins: [autoprefixer({})],
     },
   },
 });
